@@ -50,6 +50,7 @@ object SbtAutoprefixer extends AutoPlugin {
 
       SbtWeb.syncMappings(
         streams.value.cacheDirectory,
+        "autoprefixer-cache",
         autoprefixerMappings,
         buildDir.value
       )
