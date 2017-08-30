@@ -2,7 +2,7 @@ package net.matthewrennie.sbt.autoprefixer
 
 import sbt._
 import sbt.Keys._
-import com.typesafe.sbt.web.SbtWeb
+import com.typesafe.sbt.web.{Compat, SbtWeb}
 import com.typesafe.sbt.web.pipeline.Pipeline
 import com.typesafe.sbt.jse.{SbtJsEngine, SbtJsTask}
 
@@ -49,8 +49,7 @@ object SbtAutoprefixer extends AutoPlugin {
       val autoprefixerMappings = mappings.filter(f => !f._1.isDirectory && include.accept(f._1) && !exclude.accept(f._1))
 
       SbtWeb.syncMappings(
-        streams.value.cacheDirectory,
-        "autoprefixer-cache",
+        Compat.cacheStore(streams.value, "autoprefixer-cache"),
         autoprefixerMappings,
         buildDir.value
       )
