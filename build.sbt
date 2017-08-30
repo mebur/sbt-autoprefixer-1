@@ -21,3 +21,9 @@ publishTo := {
   if (isSnapshot.value) Some(Classpaths.sbtPluginSnapshots)
   else Some(Classpaths.sbtPluginReleases)
 }
+
+//scriptedSettings
+
+//scriptedBufferLog := false
+
+//scriptedLaunchOpts += s"-Dproject.version=${version.value}"
