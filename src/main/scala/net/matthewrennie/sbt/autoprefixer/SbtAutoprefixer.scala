@@ -13,6 +13,8 @@ object Import {
   object AutoprefixerKeys {
     val buildDir = SettingKey[File]("autoprefixer-build-dir", "Where autoprefixer will read from.")
     val browsers = SettingKey[String]("autoprefixer-browsers", "Which browsers autoprefixer will support.")
+    val inlineSourceMap = SettingKey[Boolean]("autoprefixer-inline-source-map", "Enables inline source maps by data:uri to annotation comment. The default is that inline source maps are dsiabled (false).")
+    val sourceMap = SettingKey[Boolean]("autoprefixer-map", "Enables source maps. The default is that source maps are enabled (true).")
   }
 
 }
@@ -37,6 +39,8 @@ object SbtAutoprefixer extends AutoPlugin {
     excludeFilter in autoprefixer := HiddenFileFilter,
     includeFilter in autoprefixer := GlobFilter("*.css"),
     resourceManaged in autoprefixer := webTarget.value / autoprefixer.key.label,
+    sourceMap := true,
+    inlineSourceMap := false,
     browsers := "",
     autoprefixer := runAutoprefixer.dependsOn(WebKeys.nodeModules in Assets).value
   )
@@ -65,9 +69,12 @@ object SbtAutoprefixer extends AutoPlugin {
 
           val useAutoprefixerArg = Seq("--use", "autoprefixer", "--replace")
 
+          val sourceMapArgs = if (inlineSourceMap.value && sourceMap.value) { Nil } else { if (sourceMap.value) Seq("--map") else Seq("--no-map") }
+
           val browsersArg = if (browsers.value.length > 0) Seq("--autoprefixer.browsers", browsers.value) else Nil
 
           val allArgs = Seq() ++
+            sourceMapArgs ++
             useAutoprefixerArg ++
             browsersArg ++
             inputFileArgs
