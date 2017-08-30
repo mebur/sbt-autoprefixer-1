@@ -82,10 +82,10 @@ object SbtAutoprefixer extends AutoPlugin {
             (timeoutPerSource in autoprefixer).value * autoprefixerMappings.size
           )
 
-          buildDir.value.***.get.filter(!_.isDirectory).toSet
+          buildDir.value.**(AllPassFilter).get.filter(!_.isDirectory).toSet
       }
 
-      val autoPrefixedMappings = runUpdate(buildMappings.toSet).pair(relativeTo(buildDir.value))
+      val autoPrefixedMappings = runUpdate(buildMappings.toSet).pair(Path.relativeTo(buildDir.value))
       (mappings.toSet -- autoprefixerMappings ++ autoPrefixedMappings).toSeq
   }
 
