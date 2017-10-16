@@ -4,7 +4,7 @@ organization := "net.matthewrennie.sbt"
 
 name := "sbt-autoprefixer"
 
-version := "0.2.0-SNAPSHOT"
+version := "0.2.1-SNAPSHOT"
 
 resolvers ++= Seq(
   "Typesafe Releases Repository" at "http://repo.typesafe.com/typesafe/releases/",
