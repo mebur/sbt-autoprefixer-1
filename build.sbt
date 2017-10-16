@@ -18,8 +18,8 @@ addSbtJsEngine("1.2.2")
 publishMavenStyle := false
 
 publishTo := {
-  if (isSnapshot.value) Some(Classpaths.sbtPluginSnapshots)
-  else Some(Classpaths.sbtPluginReleases)
+  if (isSnapshot.value) Some(Resolver.sbtPluginRepo("snapshots"))
+  else Some(Resolver.sbtPluginRepo("releases"))
 }
 
 //scriptedSettings
