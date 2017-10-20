@@ -46,32 +46,43 @@ object SbtAutoprefixer extends AutoPlugin {
   )
 
   private def runAutoprefixer: Def.Initialize[Task[Pipeline.Stage]] = Def.task {
-    mappings =>
+    val include = (includeFilter in autoprefixer).value
+    val exclude = (excludeFilter in autoprefixer).value
+    val streamsValue = streams.value
+    val buildDirValue = buildDir.value
+    val inlineSourceMapValue = inlineSourceMap.value
+    val sourceMapValue = sourceMap.value
+    val browsersValue = browsers.value
+    val stateValue = state.value
+    val engineTypeValue = (engineType in autoprefixer).value
+    val commandValue = (command in autoprefixer).value
+    val nodeModuleDirectoriesValue = (nodeModuleDirectories in Assets).value
+    val timeoutPerSourceValue = (timeoutPerSource in autoprefixer).value
 
-      val include = (includeFilter in autoprefixer).value
-      val exclude = (excludeFilter in autoprefixer).value
+
+    mappings =>
       val autoprefixerMappings = mappings.filter(f => !f._1.isDirectory && include.accept(f._1) && !exclude.accept(f._1))
 
       SbtWeb.syncMappings(
-        Compat.cacheStore(streams.value, "autoprefixer-cache"),
+        Compat.cacheStore(streamsValue, "autoprefixer-cache"),
         autoprefixerMappings,
-        buildDir.value
+        buildDirValue
       )
 
-      val buildMappings = autoprefixerMappings.map(o => buildDir.value / o._2)
+      val buildMappings = autoprefixerMappings.map(o => buildDirValue / o._2)
 
-      val cacheDirectory = streams.value.cacheDirectory / autoprefixer.key.label
+      val cacheDirectory = streamsValue.cacheDirectory / autoprefixer.key.label
       val runUpdate = FileFunction.cached(cacheDirectory, FilesInfo.hash) {
         inputFiles =>
-          streams.value.log.info("Autoprefixing CSS")
+          streamsValue.log.info("Autoprefixing CSS")
 
           val inputFileArgs = inputFiles.map(_.getPath)
 
           val useAutoprefixerArg = Seq("--use", "autoprefixer", "--replace")
 
-          val sourceMapArgs = if (inlineSourceMap.value && sourceMap.value) { Nil } else { if (sourceMap.value) Seq("--map") else Seq("--no-map") }
+          val sourceMapArgs = if (inlineSourceMapValue && sourceMapValue) { Nil } else { if (sourceMapValue) Seq("--map") else Seq("--no-map") }
 
-          val browsersArg = if (browsers.value.length > 0) Seq("--autoprefixer.browsers", browsers.value) else Nil
+          val browsersArg = if (browsersValue.length > 0) Seq("--autoprefixer.browsers", browsersValue) else Nil
 
           val allArgs = Seq() ++
             sourceMapArgs ++
@@ -80,19 +91,19 @@ object SbtAutoprefixer extends AutoPlugin {
             inputFileArgs
 
           SbtJsTask.executeJs(
-            state.value,
-            (engineType in autoprefixer).value,
-            (command in autoprefixer).value,
-            (nodeModuleDirectories in Assets).value.map(_.getPath),            
-            (nodeModuleDirectories in Assets).value.last / "postcss-cli" / "bin" / "postcss",
+            stateValue,
+            engineTypeValue,
+            commandValue,
+            nodeModuleDirectoriesValue.map(_.getPath),
+            nodeModuleDirectoriesValue.last / "postcss-cli" / "bin" / "postcss",
             allArgs,
-            (timeoutPerSource in autoprefixer).value * autoprefixerMappings.size
+            timeoutPerSourceValue * autoprefixerMappings.size
           )
 
-          buildDir.value.**(AllPassFilter).get.filter(!_.isDirectory).toSet
+          buildDirValue.**(AllPassFilter).get.filter(!_.isDirectory).toSet
       }
 
-      val autoPrefixedMappings = runUpdate(buildMappings.toSet).pair(Path.relativeTo(buildDir.value))
+      val autoPrefixedMappings = runUpdate(buildMappings.toSet).pair(Path.relativeTo(buildDirValue))
       (mappings.toSet -- autoprefixerMappings ++ autoPrefixedMappings).toSeq
   }
 

@@ -1,6 +1,6 @@
 # Compile a template
 
-> web-stage
+> webStage
 $ exists target/web/stage/css/test.css
 > checkCSSFileContents
 $ exists target/web/stage/css/test.css.map

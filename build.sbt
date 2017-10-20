@@ -4,7 +4,7 @@ organization := "net.matthewrennie.sbt"
 
 name := "sbt-autoprefixer"
 
-version := "0.2.0-SNAPSHOT"
+version := "0.2.1-SNAPSHOT"
 
 resolvers ++= Seq(
   "Typesafe Releases Repository" at "http://repo.typesafe.com/typesafe/releases/",
@@ -18,8 +18,8 @@ addSbtJsEngine("1.2.2")
 publishMavenStyle := false
 
 publishTo := {
-  if (isSnapshot.value) Some(Classpaths.sbtPluginSnapshots)
-  else Some(Classpaths.sbtPluginReleases)
+  if (isSnapshot.value) Some(Resolver.sbtPluginRepo("snapshots"))
+  else Some(Resolver.sbtPluginRepo("releases"))
 }
 
 //scriptedSettings
