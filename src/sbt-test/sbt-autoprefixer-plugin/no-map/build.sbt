@@ -1,4 +1,4 @@
-import net.matthewrennie.sbt.autoprefixer.Import.AutoprefixerKeys
+import se.sisyfosdigital.sbt.Import.AutoprefixerKeys
 
 lazy val root = (project in file(".")).enablePlugins(SbtWeb)
 
@@ -12,7 +12,7 @@ val checkCSSFileContents = taskKey[Unit]("check that css contents are correct")
 
 checkCSSFileContents := {
   val contents = IO.read(file("target/web/stage/css/test.css"))
-  if (!contents.contains("-webkit-transition")) {
+  if (!contents.contains("-webkit-transform")) {
     sys.error(s"Unexpected contents: $contents")
   }
 }

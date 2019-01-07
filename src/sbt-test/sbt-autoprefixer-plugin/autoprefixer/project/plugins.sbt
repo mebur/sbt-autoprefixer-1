@@ -1,1 +1,1 @@
-addSbtPlugin("net.matthewrennie.sbt" % "sbt-autoprefixer" % sys.props("project.version"))
+addSbtPlugin("se.sisyfosdigital.sbt" % "sbt-autoprefixer" % sys.props("project.version"))

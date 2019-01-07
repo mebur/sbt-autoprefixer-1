@@ -1,29 +1,13 @@
 lazy val `sbt-autoprefixer` = project in file(".")
 
-organization := "net.matthewrennie.sbt"
-
 name := "sbt-autoprefixer"
-
-version := "0.2.1-SNAPSHOT"
-
-resolvers ++= Seq(
-  "Typesafe Releases Repository" at "http://repo.typesafe.com/typesafe/releases/",
-  Resolver.url("sbt snapshot plugins", url("http://repo.scala-sbt.org/scalasbt/sbt-plugin-snapshots"))(Resolver.ivyStylePatterns),
-  Resolver.sonatypeRepo("snapshots"),
-  "Typesafe Snapshots Repository" at "http://repo.typesafe.com/typesafe/snapshots/"
-)
+organization := "se.sisyfosdigital.sbt"
+description in ThisBuild := "plugin that uses Autoprefixer (https://github.com/ai/autoprefixer) to post-process CSS and add vendor prefixes to rules by Can I Use (http://caniuse.com)"
+licenses in ThisBuild += ("Apache-2.0", url("https://www.apache.org/licenses/LICENSE-2.0.html"))
 
 addSbtJsEngine("1.2.2")
 
+sbtPlugin := true
 publishMavenStyle := false
-
-publishTo := {
-  if (isSnapshot.value) Some(Resolver.sbtPluginRepo("snapshots"))
-  else Some(Resolver.sbtPluginRepo("releases"))
-}
-
-//scriptedSettings
-
-//scriptedBufferLog := false
-
-//scriptedLaunchOpts += s"-Dproject.version=${version.value}"
+bintrayRepository := "sbt-plugins"
+bintrayOrganization := None

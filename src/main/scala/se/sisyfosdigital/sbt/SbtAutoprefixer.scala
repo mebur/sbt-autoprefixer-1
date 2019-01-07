@@ -1,4 +1,4 @@
-package net.matthewrennie.sbt.autoprefixer
+package se.sisyfosdigital.sbt
 
 import sbt._
 import sbt.Keys._

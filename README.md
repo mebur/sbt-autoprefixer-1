@@ -1,14 +1,13 @@
 sbt-autoprefixer
 ================
 
+[![Build Status](https://api.travis-ci.org/mebur/sbt-autoprefixer-1.png?branch=master)](https://travis-ci.org/mebur/sbt-autoprefixer-1)
+
 [sbt-web](https://github.com/sbt/sbt-web) plugin that uses [Autoprefixer](https://github.com/ai/autoprefixer) to post-process CSS and add vendor prefixes to rules by [Can I Use](http://caniuse.com).
 
-To use the latest version from Github, add the following to the `project/plugins.sbt` of your project:
+To use this plugin use the addSbtPlugin command within your project's plugins.sbt (or as a global setting) i.e.:
 
-```scala
-    lazy val root = project.in(file(".")).dependsOn(sbtAutoprefixer)
-    lazy val sbtAutoprefixer = uri("git://github.com/mkurz/sbt-autoprefixer")
-```
+    addSbtPlugin("se.sisyfosdigital.sbt" % "sbt-autoprefixer" % "0.2.2")
 
 Your project's build file also needs to enable sbt-web plugins. For example with build.sbt:
 
@@ -48,8 +47,8 @@ Modify your package.json (in root):
 ```json
 {
   "dependencies": {
-	"autoprefixer": "^6.3.0",
-	"postcss-cli": "^2.5.0"
+    "postcss-cli": "6.1.0",
+    "autoprefixer": "9.3.1"
   }
 }
 ```
@@ -58,4 +57,4 @@ or invoke:
 npm install postcss-cli@">=2.5.0" autoprefixer@">=6.3.0" --save
 ```
 
-If you receive duplicate map errors when using incombination with LESS, turn sourceMapping off.
+If you receive duplicate map errors when using in combination with LESS, turn sourceMapping off.
