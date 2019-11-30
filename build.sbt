@@ -1,4 +1,4 @@
-lazy val `sbt-autoprefixer` = project in file(".")
+lazy val `sbt-autoprefixer` = (project in file(".")).enablePlugins(SbtWebBase)
 
 organization := "net.matthewrennie.sbt"
 
@@ -7,13 +7,13 @@ name := "sbt-autoprefixer"
 version := "0.2.1-SNAPSHOT"
 
 resolvers ++= Seq(
-  "Typesafe Releases Repository" at "http://repo.typesafe.com/typesafe/releases/",
-  Resolver.url("sbt snapshot plugins", url("http://repo.scala-sbt.org/scalasbt/sbt-plugin-snapshots"))(Resolver.ivyStylePatterns),
+  "Typesafe Releases Repository" at "https://repo.typesafe.com/typesafe/releases/",
+  Resolver.url("sbt snapshot plugins", url("https://repo.scala-sbt.org/scalasbt/sbt-plugin-snapshots"))(Resolver.ivyStylePatterns),
   Resolver.sonatypeRepo("snapshots"),
-  "Typesafe Snapshots Repository" at "http://repo.typesafe.com/typesafe/snapshots/"
+  "Typesafe Snapshots Repository" at "https://repo.typesafe.com/typesafe/snapshots/"
 )
 
-addSbtJsEngine("1.2.2")
+addSbtJsEngine("1.2.3")
 
 publishMavenStyle := false
 
