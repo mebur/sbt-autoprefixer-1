@@ -1,3 +1,4 @@
 libraryDependencies += "org.scala-sbt" %% "scripted-plugin" % sbtVersion.value
 
-addSbtPlugin("com.typesafe.sbt" % "sbt-web-build-base" % "1.2.0")
+addSbtPlugin("com.typesafe.sbt" % "sbt-web-build-base" % "1.2.1")
+addSbtPlugin("org.foundweekends" % "sbt-bintray" % "0.5.6")

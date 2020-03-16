@@ -7,7 +7,9 @@ sbt-autoprefixer
 
 To use this plugin use the addSbtPlugin command within your project's plugins.sbt (or as a global setting) i.e.:
 
-    addSbtPlugin("se.sisyfosdigital.sbt" % "sbt-autoprefixer" % "0.2.2")
+    resolvers += Resolver.bintrayIvyRepo("sisyfos-digital", "sbt-plugins")
+
+    addSbtPlugin("se.sisyfosdigital.sbt" % "sbt-autoprefixer" % "0.2.3")
 
 Your project's build file also needs to enable sbt-web plugins. For example with build.sbt:
 
