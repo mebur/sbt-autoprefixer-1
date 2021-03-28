@@ -35,29 +35,29 @@ object SbtAutoprefixer extends AutoPlugin {
   import AutoprefixerKeys._
 
   override def projectSettings = Seq(
-    buildDir := (resourceManaged in autoprefixer).value / "build",
-    excludeFilter in autoprefixer := HiddenFileFilter,
-    includeFilter in autoprefixer := GlobFilter("*.css"),
-    resourceManaged in autoprefixer := webTarget.value / autoprefixer.key.label,
+    buildDir := (autoprefixer / resourceManaged).value / "build",
+    autoprefixer / excludeFilter := HiddenFileFilter,
+    autoprefixer / includeFilter := GlobFilter("*.css"),
+    autoprefixer / resourceManaged := webTarget.value / autoprefixer.key.label,
     sourceMap := true,
     inlineSourceMap := false,
     browsers := "",
-    autoprefixer := runAutoprefixer.dependsOn(WebKeys.nodeModules in Assets).value
+    autoprefixer := runAutoprefixer.dependsOn(Assets / WebKeys.nodeModules).value
   )
 
   private def runAutoprefixer: Def.Initialize[Task[Pipeline.Stage]] = Def.task {
-    val include = (includeFilter in autoprefixer).value
-    val exclude = (excludeFilter in autoprefixer).value
+    val include = (autoprefixer / includeFilter).value
+    val exclude = (autoprefixer / excludeFilter).value
     val streamsValue = streams.value
     val buildDirValue = buildDir.value
     val inlineSourceMapValue = inlineSourceMap.value
     val sourceMapValue = sourceMap.value
     val browsersValue = browsers.value
     val stateValue = state.value
-    val engineTypeValue = (engineType in autoprefixer).value
-    val commandValue = (command in autoprefixer).value
-    val nodeModuleDirectoriesValue = (nodeModuleDirectories in Assets).value
-    val timeoutPerSourceValue = (timeoutPerSource in autoprefixer).value
+    val engineTypeValue = (autoprefixer / engineType).value
+    val commandValue = (autoprefixer / command).value
+    val nodeModuleDirectoriesValue = (Assets / nodeModuleDirectories).value
+    val timeoutPerSourceValue = (autoprefixer / timeoutPerSource).value
 
 
     mappings =>
