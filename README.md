@@ -5,11 +5,12 @@ sbt-autoprefixer
 
 [sbt-web](https://github.com/sbt/sbt-web) plugin that uses [Autoprefixer](https://github.com/ai/autoprefixer) to post-process CSS and add vendor prefixes to rules by [Can I Use](http://caniuse.com).
 
-To use this plugin use the addSbtPlugin command within your project's plugins.sbt (or as a global setting) i.e.:
+To use the latest version from Github, add the following to the `project/plugins.sbt` of your project:
 
-    resolvers += Resolver.bintrayIvyRepo("sisyfos-digital", "sbt-plugins")
-
-    addSbtPlugin("se.sisyfosdigital.sbt" % "sbt-autoprefixer" % "0.2.3")
+```scala
+    lazy val root = project.in(file(".")).dependsOn(sbtAutoprefixer)
+    lazy val sbtAutoprefixer = uri("git://github.com/mebur/sbt-autoprefixer-1")
+```
 
 Your project's build file also needs to enable sbt-web plugins. For example with build.sbt:
 
@@ -49,14 +50,15 @@ Modify your package.json (in root):
 ```json
 {
   "dependencies": {
-    "postcss-cli": "6.1.0",
-    "autoprefixer": "9.3.1"
+    "postcss-cli": "8.3.1",
+    "autoprefixer": "10.2.6"
   }
 }
+
 ```
 or invoke:
 ```
-npm install postcss-cli@">=2.5.0" autoprefixer@">=6.3.0" --save
+npm install postcss-cli@">=8.3.1" autoprefixer@">=10.2.6" --save
 ```
 
 If you receive duplicate map errors when using in combination with LESS, turn sourceMapping off.
