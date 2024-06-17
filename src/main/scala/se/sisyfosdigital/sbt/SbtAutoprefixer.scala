@@ -57,14 +57,13 @@ object SbtAutoprefixer extends AutoPlugin {
     val engineTypeValue = (autoprefixer / engineType).value
     val commandValue = (autoprefixer / command).value
     val nodeModuleDirectoriesValue = (Assets / nodeModuleDirectories).value
-    val timeoutPerSourceValue = (autoprefixer / timeoutPerSource).value
 
 
     mappings =>
       val autoprefixerMappings = mappings.filter(f => !f._1.isDirectory && include.accept(f._1) && !exclude.accept(f._1))
 
       SbtWeb.syncMappings(
-        Compat.cacheStore(streamsValue, "autoprefixer-cache"),
+        streamsValue.cacheStoreFactory.make("autoprefixer-cache"),
         autoprefixerMappings,
         buildDirValue
       )
@@ -96,8 +95,7 @@ object SbtAutoprefixer extends AutoPlugin {
             commandValue,
             nodeModuleDirectoriesValue.map(_.getPath),
             nodeModuleDirectoriesValue.last / "postcss-cli" / "bin" / "postcss",
-            allArgs,
-            timeoutPerSourceValue * autoprefixerMappings.size
+            allArgs
           )
 
           buildDirValue.**(AllPassFilter).get.filter(!_.isDirectory).toSet
